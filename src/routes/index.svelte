@@ -1,13 +1,17 @@
 <script context="module" lang="ts">
 	export const prerender = true;
-	fetch('/api')
-		.then((d) => d.json())
-		.then((res) => console.log(res))
-		.catch((error) => console.error('error'));
 </script>
 
 <script lang="ts">
-	import Counter from '$lib/Counter.svelte';
+	import { db } from '../firebase';
+	import { onMount } from 'svelte';
+	onMount(() => {
+		db.ref()
+			.limitToFirst(10)
+			.on('value', (snapshot) => {
+				console.log(snapshot.val());
+			});
+	});
 </script>
 
 <svelte:head>
