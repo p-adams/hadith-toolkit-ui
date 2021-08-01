@@ -27,7 +27,7 @@
 		<div class="header">id</div>
 		<div class="header">data</div>
 		{#each biographies as biography}
-			<div class="row cell">{biography.id}</div>
+			<div class="row cell">{Number.isInteger(parseInt(biography.id)) ? biography.id : '-'}</div>
 			<div class="row cell data">{biography.data}</div>
 		{/each}
 	</div>
