@@ -10,9 +10,7 @@
 		db.ref()
 			.limitToFirst(10)
 			.on('value', (snapshot) => {
-				// console.log(snapshot.val());
 				biographies = [...snapshot.val()];
-				console.log('bio', biographies);
 			});
 	});
 </script>
