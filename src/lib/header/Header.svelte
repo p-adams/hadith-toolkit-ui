@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import logo from './svelte-logo.svg';
 </script>
 
 <header>
@@ -16,7 +15,7 @@
 	</nav>
 </header>
 
-<style>
+<style lang="scss">
 	header {
 		display: flex;
 		justify-content: space-between;
@@ -24,9 +23,11 @@
 
 	nav {
 		width: 100%;
-		display: flex;
-		justify-content: space-between;
 		--background: rgba(255, 255, 255, 0.7);
+		h1 {
+			text-transform: uppercase;
+			margin: 10px;
+		}
 	}
 
 	ul {

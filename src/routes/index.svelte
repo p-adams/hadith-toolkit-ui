@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	export const prerender = true;
+	//export const prerender = true;
 </script>
 
 <script lang="ts">
@@ -10,7 +10,7 @@
 	}
 
 	async function getBiographies(limit = 10): Promise<Array<Biography>> {
-		const entries = await db.ref().limitToFirst(10).once('value');
+		const entries = await db.ref().limitToFirst(limit).once('value');
 		return entries.val();
 	}
 </script>
@@ -21,15 +21,19 @@
 
 <section>
 	<div class="table-actions">
-		<div class="search-filter">
-			<input placeholder="search" />
-			<button class="icon" title="search" on:click={() => alert('meow')}
-				><i class="fas fa-search" /></button
-			>
+		<div class="table-actions-container">
+			<div class="search-filter">
+				<button class="icon" title="search" on:click={() => alert('meow')}
+					><i class="fas fa-search" /></button
+				>
+				<input placeholder="search" />
+			</div>
 		</div>
 	</div>
 	{#await getBiographies()}
-		<p>loading...</p>
+		<div class="loading-container">
+			<p>loading...</p>
+		</div>
 	{:then biographies}
 		<div class="table-container">
 			<div class="header">id</div>
@@ -40,11 +44,15 @@
 			{/each}
 		</div>
 	{:catch error}
-		<p>error</p>
+		<div class="loading-container error">
+			<p>error {error.message}</p>
+		</div>
 	{/await}
 </section>
 
 <style lang="scss">
+	$defaultTableHeight: 464px;
+	$defaultTableWidth: 990px;
 	section {
 		display: flex;
 		flex-direction: column;
@@ -58,32 +66,37 @@
 		justify-content: space-between;
 		flex-direction: row;
 		width: 100%;
-		height: 40px;
+		min-height: 50px;
 		outline: 1px solid lightgray;
-		padding: 10px;
-		.search-filter {
+		.table-actions-container {
 			display: flex;
-			justify-content: space-between;
-			border: 1px solid lightgray;
-			border-radius: 4px;
-			input {
-				border: none;
-				border-radius: 4px 0 4px 4px;
-				&:focus {
-					outline: none;
+			padding: 8px;
+			.search-filter {
+				max-width: 584px;
+				display: flex;
+				justify-content: space-between;
+				border: 1px solid lightgray;
+				border-radius: 24px;
+				input {
+					border: none;
+					border-radius: var(--input-border-radius);
+					&:focus {
+						outline: none;
+					}
 				}
-			}
-			.icon {
-				text-align: center;
-				width: 40px;
-				background-color: slategray;
-				border: none;
-				.fa-search {
-					height: 100%;
-					display: inline-block;
-					color: white;
-					font-size: 18px;
-					line-height: 38px;
+				.icon {
+					text-align: center;
+					width: 40px;
+					background-color: slategray;
+					border: none;
+					border-radius: var(--icon-border-radius);
+					.fa-search {
+						height: 100%;
+						display: inline-block;
+						color: white;
+						font-size: 18px;
+						line-height: 38px;
+					}
 				}
 			}
 		}
@@ -111,6 +124,15 @@
 				text-align: right;
 				align-items: center;
 			}
+		}
+	}
+	.loading-container {
+		min-height: $defaultTableHeight;
+		min-width: $defaultTableWidth;
+		text-align: center;
+		p {
+			font-size: 32px;
+			text-transform: uppercase;
 		}
 	}
 </style>
