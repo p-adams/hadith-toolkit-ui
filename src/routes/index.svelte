@@ -3,6 +3,7 @@
 </script>
 
 <script lang="ts">
+	import { fly } from 'svelte/transition';
 	import { db } from '../firebase';
 	interface Biography {
 		id: string;
@@ -35,7 +36,7 @@
 			<p>loading...</p>
 		</div>
 	{:then biographies}
-		<div class="table-container">
+		<div class="table-container" in:fly={{ y: 200, duration: 500 }}>
 			<div class="header">id</div>
 			<div class="header">data</div>
 			{#each biographies as biography}
