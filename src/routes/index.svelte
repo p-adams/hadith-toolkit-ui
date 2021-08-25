@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	//export const prerender = true;
+	export const prerender = true;
 </script>
 
 <script lang="ts">
@@ -10,6 +10,11 @@
 		data: string;
 	}
 
+	let filtersAreVisible = false;
+
+	function toggleFilters() {
+		filtersAreVisible = !filtersAreVisible;
+	}
 	async function getBiographies(limit = 10): Promise<Array<Biography>> {
 		const entries = await db.ref().limitToFirst(limit).once('value');
 		return entries.val();
@@ -30,12 +35,34 @@
 				<input placeholder="search" />
 			</div>
 			<div class="table-filter">
-				<button class="icon">
+				{#if filtersAreVisible}
+					<select>
+						<option>a</option>
+						<option>b</option>
+						<option>c</option>
+					</select>
+					<select>
+						<option>a</option>
+						<option>b</option>
+						<option>c</option>
+					</select>
+					<select>
+						<option>a</option>
+						<option>b</option>
+						<option>c</option>
+					</select>
+				{/if}
+
+				<button
+					class={`icon ${filtersAreVisible ? 'active' : ''}`}
+					on:click={() => toggleFilters()}
+					title="filter"
+				>
 					<i class="fas fa-filter" />
 				</button>
 			</div>
 		</div>
-		<div>pagination 1,2,3...n</div>
+		<div class="pagination-container">pagination 1,2,3...n</div>
 	</div>
 	{#await getBiographies()}
 		<div class="loading-container">
@@ -83,6 +110,7 @@
 			padding: 8px;
 			border-right: 1px solid lightgray;
 			button {
+				cursor: pointer;
 				&.icon {
 					text-align: center;
 					width: 40px;
@@ -115,6 +143,25 @@
 					}
 				}
 			}
+			.table-filter {
+				button {
+					&.icon {
+						height: 30px;
+						border-radius: 2px;
+						&.active {
+							color: slategray;
+							background-color: white;
+							box-shadow: inset 0 0 16px lightgray;
+							border: 1px solid #64b5f6;
+						}
+					}
+				}
+			}
+		}
+		.pagination-container {
+			display: flex;
+			align-items: center;
+			padding: 18px;
 		}
 	}
 	.table-container {
