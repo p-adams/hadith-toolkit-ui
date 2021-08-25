@@ -29,7 +29,13 @@
 				>
 				<input placeholder="search" />
 			</div>
+			<div class="table-filter">
+				<button class="icon">
+					<i class="fas fa-filter" />
+				</button>
+			</div>
 		</div>
+		<div>pagination 1,2,3...n</div>
 	</div>
 	{#await getBiographies()}
 		<div class="loading-container">
@@ -70,8 +76,21 @@
 		min-height: 50px;
 		outline: 1px solid lightgray;
 		.table-actions-container {
+			flex: 1;
 			display: flex;
+			align-items: center;
+			justify-content: space-between;
 			padding: 8px;
+			border-right: 1px solid lightgray;
+			button {
+				&.icon {
+					text-align: center;
+					width: 40px;
+					background-color: slategray;
+					color: white;
+					border: none;
+				}
+			}
 			.search-filter {
 				max-width: 584px;
 				display: flex;
@@ -86,10 +105,6 @@
 					}
 				}
 				.icon {
-					text-align: center;
-					width: 40px;
-					background-color: slategray;
-					border: none;
 					border-radius: var(--icon-border-radius);
 					.fa-search {
 						height: 100%;
