@@ -9,6 +9,10 @@
 		id: string;
 		data: string;
 	}
+	const PAGINATION_UPPER_LIMIT = 13076;
+
+	let currentPage = 1;
+	let newStart = 10;
 
 	let filtersAreVisible = false;
 
@@ -19,6 +23,13 @@
 		const entries = await db.ref().limitToFirst(limit).once('value');
 		return entries.val();
 	}
+
+	function navigate(page: number) {
+		newStart = page * 10;
+		getBiographies(newStart);
+	}
+
+	$: currentPage = newStart / 10;
 </script>
 
 <svelte:head>
@@ -62,9 +73,27 @@
 				</button>
 			</div>
 		</div>
-		<div class="pagination-container">pagination 1,2,3...n</div>
+		<div class="pagination-container">
+			<div>Page {currentPage} of about {PAGINATION_UPPER_LIMIT} results</div>
+			<div class="navigation">
+				<div class="previous">
+					{#if currentPage > 1} previous{/if}
+				</div>
+				<div class="pages">
+					{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as num}
+						<div
+							class={`page ${num === currentPage ? 'active' : ''}`}
+							on:click={() => navigate(num)}
+						>
+							{num}
+						</div>
+					{/each}
+				</div>
+				<div class="next">next</div>
+			</div>
+		</div>
 	</div>
-	{#await getBiographies()}
+	{#await getBiographies(newStart)}
 		<div class="loading-container">
 			<p>loading...</p>
 		</div>
@@ -73,7 +102,7 @@
 			<div class="header">id</div>
 			<div class="header">data</div>
 			{#each biographies as biography}
-				<div class="row cell">{Number.isInteger(parseInt(biography.id)) ? biography.id : '-'}</div>
+				<div class="row cell">{Number.isInteger(parseInt(biography.id)) ? biography.id : '*'}</div>
 				<div class="row cell data">{biography.data}</div>
 			{/each}
 		</div>
@@ -160,8 +189,32 @@
 		}
 		.pagination-container {
 			display: flex;
-			align-items: center;
-			padding: 18px;
+			flex-direction: column;
+			text-align: left;
+			padding: 10px;
+			.navigation {
+				display: flex;
+				.previous {
+					cursor: pointer;
+					margin-right: 25px;
+				}
+				.next {
+					cursor: pointer;
+					margin-left: 25px;
+				}
+				.pages {
+					display: flex;
+					width: 150px;
+					justify-content: space-between;
+					.page {
+						cursor: pointer;
+						&.active {
+							text-decoration: underline;
+							color: blue;
+						}
+					}
+				}
+			}
 		}
 	}
 	.table-container {
