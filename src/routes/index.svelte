@@ -12,24 +12,24 @@
 	const PAGINATION_UPPER_LIMIT = 13076;
 
 	let currentPage = 1;
-	let newStart = 10;
+	let newStart = 100;
 
 	let filtersAreVisible = false;
 
 	function toggleFilters() {
 		filtersAreVisible = !filtersAreVisible;
 	}
-	async function getBiographies(limit = 10): Promise<Array<Biography>> {
+	async function getBiographies(limit = 100): Promise<Array<Biography>> {
 		const entries = await db.ref().limitToFirst(limit).once('value');
 		return entries.val();
 	}
 
 	function navigate(page: number) {
-		newStart = page * 10;
+		newStart = page * 100;
 		getBiographies(newStart);
 	}
 
-	$: currentPage = newStart / 10;
+	$: currentPage = newStart / 100;
 </script>
 
 <svelte:head>
@@ -223,6 +223,8 @@
 		display: grid;
 		grid-template-columns: 70px auto;
 		margin-top: 20px;
+		height: 550px;
+		overflow-y: scroll;
 		.header,
 		.row {
 			border: 1px solid lightgrey;
