@@ -30,6 +30,10 @@
 		getBiographies(rowCount);
 	}
 
+	// TODO: implement previous and next pagination handlers
+	function onPreviousPage() {}
+	function onNextPage() {}
+
 	$: currentPage = rowCount / 100;
 </script>
 
@@ -77,7 +81,7 @@
 		<div class="pagination-container">
 			<div>Page {currentPage} of about {PAGINATION_UPPER_LIMIT} results</div>
 			<div class="navigation">
-				<div class="previous">
+				<div class="previous" on:click={() => onPreviousPage()}>
 					{#if currentPage > 1} previous{/if}
 				</div>
 				<div class="pages">
@@ -90,7 +94,7 @@
 						</div>
 					{/each}
 				</div>
-				<div class="next">next</div>
+				<div class="next" on:click={() => onNextPage()}>next</div>
 			</div>
 		</div>
 	</div>
