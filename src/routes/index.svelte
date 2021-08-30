@@ -12,7 +12,7 @@
 	const PAGINATION_UPPER_LIMIT = 13076;
 
 	let currentPage = 1;
-	let newStart = 100;
+	let rowCount = 100;
 
 	let filtersAreVisible = false;
 
@@ -21,15 +21,16 @@
 	}
 	async function getBiographies(limit = 100): Promise<Array<Biography>> {
 		const entries = await db.ref().limitToFirst(limit).once('value');
-		return entries.val();
+		const values = entries.val();
+		return values.slice(Math.max(values.length - 100, 0));
 	}
 
 	function navigate(page: number) {
-		newStart = page * 100;
-		getBiographies(newStart);
+		rowCount = page * 100;
+		getBiographies(rowCount);
 	}
 
-	$: currentPage = newStart / 100;
+	$: currentPage = rowCount / 100;
 </script>
 
 <svelte:head>
@@ -93,7 +94,7 @@
 			</div>
 		</div>
 	</div>
-	{#await getBiographies(newStart)}
+	{#await getBiographies(rowCount)}
 		<div class="loading-container">
 			<p>loading...</p>
 		</div>
