@@ -26,11 +26,7 @@
   "dependencies": {
     "@fontsource/fira-mono": "^4.2.2",
     "@lukeed/uuid": "^2.0.0",
-    "apollo-server-core": "^3.3.0",
-    "apollo-server-express": "^3.3.0",
     "cookie": "^0.4.1",
-    "express": "^4.17.1",
-    "firebase": "^8.8.1",
-    "graphql": "^15.5.3"
+    "firebase": "^8.8.1"
   }
 }
