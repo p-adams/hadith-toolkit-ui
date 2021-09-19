@@ -84,10 +84,12 @@
 			</div>
 		</div>
 		<div class="pagination-container">
-			<div>Page {currentPage} of about {PAGINATION_UPPER_LIMIT} results</div>
+			<div class="page-results">
+				Page <span>{currentPage}</span> of about <span>{PAGINATION_UPPER_LIMIT}</span> results
+			</div>
 			<div class="navigation">
 				<div class="previous" on:click={() => onPreviousPage()}>
-					{#if currentPage > 1} previous{/if}
+					{#if currentPage > 1} <i class="fas fa-angle-left" />{/if}
 				</div>
 				<div class="pages">
 					{#each pageRange as range}
@@ -99,7 +101,7 @@
 						</div>
 					{/each}
 				</div>
-				<div class="next" on:click={() => onNextPage()}>next</div>
+				<div class="next" on:click={() => onNextPage()}><i class="fas fa-angle-right" /></div>
 			</div>
 		</div>
 	</div>
@@ -146,7 +148,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			padding: 8px;
+			padding: 28px;
 			border-right: 1px solid lightgray;
 			button {
 				cursor: pointer;
@@ -202,8 +204,17 @@
 			flex-direction: column;
 			text-align: left;
 			padding: 10px;
+			align-items: center;
+			margin: auto;
+			.page-results {
+				margin-bottom: 10px;
+				span {
+					font-weight: 600;
+				}
+			}
 			.navigation {
 				display: flex;
+
 				.previous {
 					cursor: pointer;
 					margin-right: 25px;
