@@ -3,6 +3,8 @@
 </script>
 
 <script lang="ts">
+	import { page } from '$app/stores';
+
 	import { fly } from 'svelte/transition';
 	import { db } from '../firebase';
 	interface Biography {
@@ -13,7 +15,7 @@
 
 	let currentPage = 1;
 	let rowCount = 100;
-
+	let pageRange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 	let filtersAreVisible = false;
 
 	function toggleFilters() {
@@ -53,16 +55,19 @@
 			<div class="table-filter">
 				{#if filtersAreVisible}
 					<select>
+						<option>reliability</option>
 						<option>a</option>
 						<option>b</option>
 						<option>c</option>
 					</select>
 					<select>
+						<option>era</option>
 						<option>a</option>
 						<option>b</option>
 						<option>c</option>
 					</select>
 					<select>
+						<option>narrators</option>
 						<option>a</option>
 						<option>b</option>
 						<option>c</option>
@@ -85,12 +90,12 @@
 					{#if currentPage > 1} previous{/if}
 				</div>
 				<div class="pages">
-					{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as num}
+					{#each pageRange as range}
 						<div
-							class={`page ${num === currentPage ? 'active' : ''}`}
-							on:click={() => navigate(num)}
+							class={`page ${range === currentPage ? 'active' : ''}`}
+							on:click={() => navigate(range)}
 						>
-							{num}
+							{range}
 						</div>
 					{/each}
 				</div>
